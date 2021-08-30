@@ -24,3 +24,8 @@ FactoryBot.build(:post)
 post = FactoryBot.build(:post)
 post.valid?
 post.errors
+
+rails routes
+rails routes | grep "posts"
+
+require "byebug"
