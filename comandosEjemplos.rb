@@ -14,3 +14,13 @@ rails g model post title:string content:string published:boolean user:reference
 rails destroy model post
 rails g model post title:string content:string published:boolean user:references
 rails db:migrate
+
+# branch 11/listar-Post-TDD
+rails g factory_bot:model User email:string name:string auth_token:string
+rails g factory_bot:model Post title:string content:string published:boolean user:references
+
+RAILS_ENV=test rails c
+FactoryBot.build(:post)
+post = FactoryBot.build(:post)
+post.valid?
+post.errors
