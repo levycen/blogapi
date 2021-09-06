@@ -29,3 +29,7 @@ rails routes
 rails routes | grep "posts"
 
 require "byebug"
+
+# Branch 15/usando-ActiveModelSerializer
+bundle             #para instalar
+rails g serializer post     # rails generatos [modelo]
