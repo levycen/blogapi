@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe "Posts endpoint", type: :request do
   
-  describe "GET /posts" do
+  describe "GET /posts" do                                                     # solo es es texto descriptivo
     before { get '/posts' }
 
     it "sohuld return OK" do
