@@ -5,4 +5,11 @@ FactoryBot.define do
     published { [false, true].sample }
     user
   end
+
+  factory :published_post, class: 'Post' do
+    title { Faker::Lorem.sentence }
+    content { Faker::Lorem.paragraph }
+    published { false }
+    user
+  end
 end

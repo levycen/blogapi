@@ -3,12 +3,26 @@ require "rails_helper"
 RSpec.describe "Posts endpoint", type: :request do
   
   describe "GET /posts" do                                                     # solo es es texto descriptivo
-    before { get '/posts' }
-
-    it "sohuld return OK" do
+    it "sohuld return OK" do 
+      get '/posts'
       payload = JSON.parse(response.body)
       expect(payload).to be_empty
       expect(response).to have_http_status(200)
+    end
+
+    describe  "Search" do
+      let!(:hola_mundo) { create(:published_post, title: 'Hola Mundo') }
+      let!(:hola_rails) { create(:published_post, title: 'Hola Rails') }
+      let!(:curso_rails) { create(:published_post, title: 'Curso Rails') }
+      
+      it "should  filter posts by title" do
+        get "/posts?search=Hola"
+        payload = JSON.parse(response.body)
+        expect(response).to have_http_status(200)
+        expect(payload).to_not be_empty
+        expect(payload.size).to eq(2)
+        expect(payload.map {|p| p["id"]}.sort).to eq([hola_mundo.id, hola_rails.id].sort)
+      end
     end
   end
 
