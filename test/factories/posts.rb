@@ -9,7 +9,7 @@ FactoryBot.define do
   factory :published_post, class: 'Post' do
     title { Faker::Lorem.sentence }
     content { Faker::Lorem.paragraph }
-    published { false }
+    published { true }
     user
   end
 end

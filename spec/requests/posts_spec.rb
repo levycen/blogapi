@@ -16,7 +16,7 @@ RSpec.describe "Posts endpoint", type: :request do
       let!(:curso_rails) { create(:published_post, title: 'Curso Rails') }
       
       it "should  filter posts by title" do
-        get "/posts?search=Hola"
+        get "/posts?search=HOLA"
         payload = JSON.parse(response.body)
         expect(response).to have_http_status(200)
         expect(payload).to_not be_empty
