@@ -10,7 +10,7 @@ class PostsController < ApplicationController
   
   # GET /posts
   def index
-    @posts = Post.where(published: true)
+    @posts = Post.where(published: true).includes(:user)
     if !params[:search].nil? && params[:search].present?
       @posts = PostsSearchService.search(@posts, params[:search])
     end

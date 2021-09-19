@@ -33,3 +33,6 @@ require "byebug"
 # Branch 15/usando-ActiveModelSerializer
 bundle             #para instalar
 rails g serializer post     # rails generatos [modelo]
+
+# Branch 19/n+1_query_problem_solution
+tail -f log/test.log
