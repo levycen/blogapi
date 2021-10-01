@@ -36,3 +36,6 @@ rails g serializer post     # rails generatos [modelo]
 
 # Branch 19/n+1_query_problem_solution
 tail -f log/test.log
+
+# Branch 21/autenticacion_pruebas
+user = User.new
