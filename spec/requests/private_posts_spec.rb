@@ -10,7 +10,9 @@ RSpec.describe "Posts with authentication", type: :request do
   # Authorization: Bearer xxxtokenxxx    convención para enviar tocken de autenticación
   let!(:auth_headers) { { 'Authorization' => "Bearer #{user.auth_token}" } }
   let!(:other_auth_headers) { { 'Authorization' => "Bearer #{other_user.auth_token}" } }
-  
+  let!(:create_params) { { "post" => { "title" => "title", "content" => "content", "published" => "true" } } }
+  let!(:update_params) { { "post" => { "title" => "title", "content" => "content", "published" => "true" } } }
+
   describe "GET /posts/{id}" do                   # solo es es texto descriptivo
     context "with valid auth"  do                                     # otra forma de darle contexto a la pruebas
       context "when requisting other's author post" do
@@ -44,10 +46,71 @@ RSpec.describe "Posts with authentication", type: :request do
     end
   end
 
-  describe "POST /posts" do
+  describe 'POST /posts' do
+    # con auth -> crear
+    context 'with valid auth' do
+      before { post '/posts', params: create_params, headers: auth_headers }
+
+      context 'payload' do
+        subject { payload }
+        it { is_expected.to include(:id, :title, :content, :published, :author) }
+      end
+
+      context 'response' do
+        subject { response }
+        it { is_expected.to have_http_status(:created) }
+      end
+    end
+    # sin auth -> 401
+    context 'without auth' do
+      before { post '/posts', params: create_params }
+
+      context 'payload' do
+        subject { payload }
+        it { is_expected.to include(:error) }
+      end
+
+      context 'response' do
+        subject { response }
+        it { is_expected.to have_http_status(:unauthorized) }
+      end
+    end
   end
 
   describe "PUT /posts" do
+    # con auth ->
+      # actualizar un post
+      # !actualizar un post de otro -> 401
+    context "when valid auth" do
+      context "when updating users's post" do
+        before { put "/posts/#{user_post.id}", params: update_params, headers: auth_headers }
+
+        context 'payload' do
+          subject { payload }
+          it { is_expected.to include(:id, :title, :content, :published, :author) }
+          it { expect(payload[:id]).to eq(user_post.id) }
+        end
+
+        context 'response' do
+          subject { response }
+          it { is_expected.to have_http_status(:ok) }
+        end
+      end
+
+      context "when updating users's post" do
+        before { put "/posts/#{other_user_post.id}", params: update_params, headers: auth_headers }
+
+        context 'payload' do
+          subject { payload }
+          it { is_expected.to include(:error) }
+        end
+
+        context 'response' do
+          subject { response }
+          it { is_expected.to have_http_status(:not_found) }
+        end
+      end
+    end
   end
 
     # it "sohuld return OK" do 
