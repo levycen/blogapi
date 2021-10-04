@@ -39,3 +39,11 @@ tail -f log/test.log
 
 # Branch 21/autenticacion_pruebas
 user = User.new
+
+# Branch 26/API-usando-postman
+user_1 = FactoryBot.create(:user)
+user_2 = FactoryBot.create(:user)
+posts = FactoryBot.create_list(:post, 10, user: user_1)
+posts = FactoryBot.create_list(:post, 10, user: user_2)
+
+_ método clave que se utiliza en rails c que hace referencia al resultado de la última isntrucción
