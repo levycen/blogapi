@@ -47,3 +47,15 @@ posts = FactoryBot.create_list(:post, 10, user: user_1)
 posts = FactoryBot.create_list(:post, 10, user: user_2)
 
 _ método clave que se utiliza en rails c que hace referencia al resultado de la última isntrucción
+
+# Branch 28/cache_para_acelerar_busquedas
+Activar el cache para develop
+rails dev:cache
+
+Testing del cache en rails c
+Rails.cache.fetch('qwer') { puts 'cacheando'; 1234 }
+Rails.cache.read('qwer')
+
+Ejemplo de el uso de un services desde rails c
+PostsSearchService.search(Post.all, "lorem")
+
